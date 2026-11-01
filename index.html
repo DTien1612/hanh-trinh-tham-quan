@@ -212,7 +212,7 @@ footer p { color:#bdcec4;font-size:12px;margin-top:12px; }
     <p>Điền thông tin để đăng ký chuyến du lịch nhé!</p>
   </div>
   <div class="register-card">
-    <form id="registrationForm" action="https://formsubmit.co/tien16122009er@gmail.com" method="POST">
+    <form id="registrationForm" target="_blank" action="https://formsubmit.co/tien16122009er@gmail.com" method="POST">
       <input type="hidden" name="_subject" value="Đăng ký tham gia chuyến du lịch">
       <input type="hidden" name="_captcha" value="false">
       <input type="hidden" name="_template" value="table">
@@ -309,32 +309,6 @@ places.forEach((p,i)=>{
    </div>
   </div>`;
  route.appendChild(card);
-});
-
-const registrationForm = document.getElementById("registrationForm");
-registrationForm.addEventListener("submit", async (event) => {
-  event.preventDefault();
-  const status = document.getElementById("registerStatus");
-  const submit = registrationForm.querySelector("button[type=submit]");
-  submit.disabled = true;
-  submit.textContent = "Đang gửi...";
-  status.textContent = "";
-  try {
-    const response = await fetch(registrationForm.action, {
-      method: "POST",
-      body: new FormData(registrationForm),
-      headers: { "Accept": "application/json" }
-    });
-    if (!response.ok) throw new Error("Không gửi được biểu mẫu");
-    status.textContent = "🎉 Đăng ký đã được gửi thành công! Cảm ơn bạn.";
-    registrationForm.reset();
-    document.getElementById("people").value = "1";
-  } catch (error) {
-    status.textContent = "Chưa gửi được đăng ký. Vui lòng thử lại nhé.";
-  } finally {
-    submit.disabled = false;
-    submit.textContent = "Gửi đăng ký →";
-  }
 });
 
 function toggleQR(i) {
