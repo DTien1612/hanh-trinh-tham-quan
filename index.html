@@ -342,15 +342,16 @@ document.getElementById("registrationForm").addEventListener("submit", async fun
       throw new Error("Máy chủ trả về phản hồi không hợp lệ.");
     }
 
-    if (!response.ok || result.success !== "true") {
-      throw new Error(result.message || "FormSubmit chưa xác nhận gửi thành công.");
+    const success = result && (result.success === true || result.success === "true");
+    if (!response.ok || !success) {
+      throw new Error((result && (result.message || result.error)) || ("FormSubmit phản hồi mã " + response.status));
     }
 
     status.textContent = "🎉 Đã gửi đăng ký thành công! Ban tổ chức sẽ liên hệ bạn sớm.";
     form.reset();
   } catch (error) {
     console.error("Lỗi gửi đăng ký:", error);
-    status.textContent = "⚠️ Chưa gửi được đăng ký. Bạn vui lòng thử lại sau hoặc liên hệ trực tiếp ban tổ chức.";
+    status.textContent = "⚠️ Chưa gửi được đăng ký: " + (error.message || "Lỗi kết nối") + ". Bạn vui lòng thử lại hoặc liên hệ ban tổ chức.";
   } finally {
     button.disabled = false;
     button.textContent = originalText;
