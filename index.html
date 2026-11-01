@@ -212,7 +212,7 @@ footer p { color:#bdcec4;font-size:12px;margin-top:12px; }
     <p>Điền thông tin để đăng ký chuyến du lịch nhé!</p>
   </div>
   <div class="register-card">
-    <form id="registrationForm" action="https://formsubmit.co/tien16122009er@gmail.com" method="POST">
+    <form id="registrationForm" action="https://formsubmit.co/ajax/tien16122009er@gmail.com" method="POST">
       <input type="hidden" name="_subject" value="Đăng ký tham gia chuyến du lịch">
       <input type="hidden" name="_captcha" value="false">
       <input type="hidden" name="_template" value="table">
@@ -335,14 +335,22 @@ document.getElementById("registrationForm").addEventListener("submit", async fun
       headers: { "Accept": "application/json" }
     });
 
-    if (!response.ok) {
-      throw new Error("Gửi biểu mẫu không thành công.");
+    let result;
+    try {
+      result = await response.json();
+    } catch {
+      throw new Error("Máy chủ trả về phản hồi không hợp lệ.");
     }
 
-    status.textContent = "🎉 Đã gửi đăng ký thành công! Cảm ơn bạn.";
+    if (!response.ok || result.success !== "true") {
+      throw new Error(result.message || "FormSubmit chưa xác nhận gửi thành công.");
+    }
+
+    status.textContent = "🎉 Đã gửi đăng ký thành công! Ban tổ chức sẽ liên hệ bạn sớm.";
     form.reset();
   } catch (error) {
-    status.textContent = "Không gửi được biểu mẫu. Vui lòng kiểm tra kết nối và thử lại. Nếu lỗi vẫn tiếp diễn, hãy liên hệ ban tổ chức.";
+    console.error("Lỗi gửi đăng ký:", error);
+    status.textContent = "⚠️ Chưa gửi được đăng ký. Bạn vui lòng thử lại sau hoặc liên hệ trực tiếp ban tổ chức.";
   } finally {
     button.disabled = false;
     button.textContent = originalText;
