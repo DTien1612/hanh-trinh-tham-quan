@@ -230,6 +230,55 @@ footer p{color:#9db5a8;font-size:13px;margin-top:12px;position:relative}
   .day-panel,.stop{backdrop-filter:none;-webkit-backdrop-filter:none;background:#e4efdc}
 }
 
+
+/* Hero glass cards + moving shine on the journey CTA */
+.hero-btn.secondary{
+  background:rgba(220,239,211,.13);
+  border:1px solid rgba(255,255,255,.34);
+  color:#fff;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.16),0 8px 24px rgba(0,0,0,.08);
+  backdrop-filter:blur(18px) saturate(135%);
+  -webkit-backdrop-filter:blur(18px) saturate(135%);
+}
+.hero-btn.secondary:hover{background:rgba(220,239,211,.21)}
+.hero-stats .stat{
+  background:rgba(220,239,211,.14);
+  border:1px solid rgba(255,255,255,.3);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 10px 28px rgba(0,0,0,.08);
+  backdrop-filter:blur(18px) saturate(135%);
+  -webkit-backdrop-filter:blur(18px) saturate(135%);
+}
+.hero-stats .stat small{color:rgba(238,248,232,.82)}
+.hero-btn.primary{
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+}
+.hero-btn.primary::after{
+  content:"";
+  position:absolute;
+  z-index:-1;
+  top:-45%;
+  left:-65%;
+  width:42%;
+  height:190%;
+  transform:skewX(-22deg);
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.72),transparent);
+  animation:heroButtonShine 2.8s ease-in-out infinite;
+  pointer-events:none;
+}
+@keyframes heroButtonShine{
+  0%,12%{left:-65%;opacity:0}
+  25%{opacity:1}
+  58%,100%{left:135%;opacity:0}
+}
+@media(prefers-reduced-transparency:reduce){
+  .hero-btn.secondary,.hero-stats .stat{backdrop-filter:none;-webkit-backdrop-filter:none;background:rgba(31,65,48,.78)}
+}
+@media(prefers-reduced-motion:reduce){
+  .hero-btn.primary::after{animation:none;display:none}
+}
+
 </style>
 </head>
 <body>
