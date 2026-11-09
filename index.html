@@ -76,13 +76,7 @@ section{padding:88px 6%}
 .section-head h2{font-family:'Playfair Display',serif;font-size:clamp(28px,4.2vw,42px);margin-top:8px;letter-spacing:-.5px;color:var(--green)}
 .section-head p{color:var(--muted);font-size:14.5px;max-width:260px;text-align:right}
 
-.day-tabs{display:inline-flex;gap:4px;margin-bottom:32px;background:rgba(255,255,255,.7);padding:5px;
-  border-radius:16px;border:1px solid var(--line);box-shadow:0 8px 30px rgba(15,61,46,.06)}
-.day-tab{border:0;background:transparent;color:var(--ink);padding:12px 22px;border-radius:12px;
-  font:inherit;font-weight:800;cursor:pointer;transition:all .25s;font-size:13.5px}
-.day-tab.active{background:linear-gradient(135deg,#174b38,#0f3d2e);color:#fff;box-shadow:0 6px 20px rgba(15,61,46,.3)}
 .timeline{display:none;position:relative;padding-left:32px;max-width:720px}
-.timeline.active{display:block}
 .timeline::before{content:'';position:absolute;left:10px;top:6px;bottom:6px;width:2px;
   background:linear-gradient(to bottom,var(--lime),rgba(15,61,46,.12));border-radius:4px}
 .tl-item{position:relative;background:var(--card);border-radius:18px;padding:18px 20px;
@@ -181,7 +175,6 @@ footer p{color:#9db5a8;font-size:13px;margin-top:12px;position:relative}
   .hero-btns{flex-direction:column;align-items:flex-start}
   section{padding:64px 5%}
   .section-head p{text-align:left;max-width:none}
-  .day-tabs{width:100%;display:flex}.day-tab{flex:1;text-align:center;padding:12px 10px}
   .stop-img{height:190px}
   .highlight{padding:32px 24px}.highlight .emoji{font-size:48px}
   .register-card{padding:28px 18px}
@@ -192,19 +185,17 @@ footer p{color:#9db5a8;font-size:13px;margin-top:12px;position:relative}
 }
 @media(max-width:400px){.hero-stats{gap:10px}.stat strong{font-size:22px}}
 
-.tl-item{cursor:default}
-.tl-item.is-collapsible{cursor:pointer}
-.tl-item .tl-desc{display:none}
-.tl-item.open .tl-desc{display:block}
-.tl-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
-.tl-toggle{flex-shrink:0;width:28px;height:28px;border-radius:8px;border:1px solid var(--line);
-  background:#f3f6f0;color:var(--green);font-size:16px;font-weight:800;line-height:1;
-  display:grid;place-items:center;transition:transform .25s,background .25s}
-.tl-item.open .tl-toggle{transform:rotate(45deg);background:var(--lime)}
-.timeline-actions{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
-.tl-action{border:1px solid var(--line);background:#fff;color:var(--green);padding:8px 14px;
-  border-radius:10px;font:inherit;font-size:12.5px;font-weight:700;cursor:pointer;transition:all .2s}
-.tl-action:hover{background:var(--lime);border-color:transparent}
+.day-panel{margin-bottom:14px;border:1px solid var(--line);border-radius:18px;background:var(--card);overflow:hidden;box-shadow:0 6px 24px rgba(15,61,46,.05)}
+.day-toggle{width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 20px;
+  border:0;background:linear-gradient(135deg,#174b38,#0f3d2e);color:#fff;font:inherit;font-weight:800;
+  font-size:15px;cursor:pointer;text-align:left}
+.day-toggle .chev{width:28px;height:28px;border-radius:8px;background:rgba(215,243,106,.2);display:grid;place-items:center;
+  transition:transform .3s;font-size:18px;line-height:1;color:var(--lime)}
+.day-panel.open .day-toggle .chev{transform:rotate(180deg)}
+.day-panel .timeline{display:none;padding:16px 16px 8px 40px;max-width:none}
+.day-panel.open .timeline{display:block}
+.day-tabs{display:none}
+.timeline-actions{display:none!important}
 
 </style>
 </head>
@@ -230,16 +221,14 @@ footer p{color:#9db5a8;font-size:13px;margin-top:12px;position:relative}
 <div class="hero-dots" id="heroDots"></div>
 </header>
 <section id="journey"><div class="section-head reveal"><div><div class="eyebrow">THE JOURNEY</div><h2>Lịch trình 2 ngày 1 đêm</h2></div><p>Điểm đến · Ăn uống · Nghỉ ngơi</p></div>
-<div class="day-tabs reveal" id="dayTabs">
-<button type="button" class="day-tab active" data-day="1">Ngày 1</button>
-<button type="button" class="day-tab" data-day="2">Ngày 2</button>
+<div class="day-panel open reveal" id="panel1">
+<button type="button" class="day-toggle" data-panel="1"><span>Ngày 1 — Khởi hành & tham quan</span><span class="chev">▾</span></button>
+<div class="timeline" id="day1"></div>
 </div>
-<div class="timeline-actions reveal" id="tlActions">
-<button type="button" class="tl-action" data-act="expand">Mở tất cả</button>
-<button type="button" class="tl-action" data-act="collapse">Thu gọn</button>
-</div>
-<div class="timeline active" id="day1"></div>
+<div class="day-panel reveal" id="panel2">
+<button type="button" class="day-toggle" data-panel="2"><span>Ngày 2 — Tiếp nối & về trường</span><span class="chev">▾</span></button>
 <div class="timeline" id="day2"></div>
+</div>
 <p class="section-note reveal">5 điểm tham quan chính vẫn có thẻ STOP + QR bên dưới.</p>
 <div class="route" id="route" style="margin-top:28px"></div>
 </section>
@@ -287,34 +276,18 @@ function renderTimeline(list, el){
     const cls = i.type==='meal'?'meal':i.type==='rest'?'rest':i.type==='travel'?'travel':'';
     const tag = i.type==='meal'?'Ăn uống':i.type==='rest'?'Nghỉ ngơi':i.type==='travel'?'Di chuyển':'Tham quan';
     const tagCls = i.type==='meal'?'meal':i.type==='rest'?'rest':'';
-    const hasDesc = !!(i.desc && i.desc.trim());
-    const coll = hasDesc ? 'is-collapsible' : '';
-    const btn = hasDesc ? '<button type="button" class="tl-toggle" aria-label="Mở/đóng">+</button>' : '';
-    return `<div class="tl-item ${cls} ${coll}"><div class="tl-head"><div><div class="tl-time">◷ ${i.time}</div><div class="tl-title">${i.title}</div></div>${btn}</div>${hasDesc?`<div class="tl-desc">${i.desc}</div>`:''}<span class="tl-tag ${tagCls}">${tag}</span></div>`;
+    return `<div class="tl-item ${cls}"><div class="tl-time">◷ ${i.time}</div><div class="tl-title">${i.title}</div>${i.desc?`<div class="tl-desc">${i.desc}</div>`:''}<span class="tl-tag ${tagCls}">${tag}</span></div>`;
   }).join('');
 }
-document.addEventListener('click',function(e){
-  const item=e.target.closest('.tl-item.is-collapsible');
-  if(item && (e.target.classList.contains('tl-toggle') || e.target.closest('.tl-head'))){
-    if(e.target.closest('a'))return;
-    item.classList.toggle('open');
-  }
-  const act=e.target.closest('.tl-action');
-  if(act){
-    const open=act.dataset.act==='expand';
-    document.querySelectorAll('.timeline.active .tl-item.is-collapsible').forEach(el=>el.classList.toggle('open',open));
-  }
-});
-renderTimeline(day1, document.getElementById('day1'));
-renderTimeline(day2, document.getElementById('day2'));
-document.getElementById('dayTabs').addEventListener('click', e=>{
-  const btn = e.target.closest('.day-tab'); if(!btn) return;
-  document.querySelectorAll('.day-tab').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  document.getElementById('day1').classList.toggle('active', btn.dataset.day==='1');
-  document.getElementById('day2').classList.toggle('active', btn.dataset.day==='2');
+document.querySelectorAll('.day-toggle').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const panel=document.getElementById('panel'+btn.dataset.panel);
+    if(panel) panel.classList.toggle('open');
+  });
 });
 
+renderTimeline(day1, document.getElementById('day1'));
+renderTimeline(day2, document.getElementById('day2'));
 const places=[
 {name:"Cù Lao Rùa",time:"06:15 – 06:45 · Ngày 1",img:"images/5.jpg",desc:"Ngắm cảnh Cù Lao Rùa, chụp ảnh lưu niệm và khởi động hành trình.",address:"Cù Lao Rùa, Bình Dương",map:"",qr:"images/qrcode_425215887_f4028e976987691ea3c8008d5ff4409d.png"},
 {name:"Bến Nhà Rồng",time:"08:30 – 09:30 · Ngày 1",img:"images/3.jpg",desc:"Tham quan Bến Nhà Rồng – Bảo tàng Hồ Chí Minh, tìm hiểu lịch sử.",address:"Bến Nhà Rồng, Quận 4",map:"",qr:"images/qrcode_425215743_d89c57bb61a746857b357b1e013099ef.png"},
