@@ -64,6 +64,27 @@ footer{background:var(--green);color:#fff;text-align:center;padding:48px 20px}fo
 @media(max-width:900px){.route{grid-template-columns:1fr}}
 @media(max-width:700px){nav,nav.scrolled{padding-left:5%;padding-right:5%}nav{padding-top:14px;padding-bottom:14px}nav.scrolled{padding-top:10px;padding-bottom:10px}nav .nav-links{gap:clamp(10px,3vw,18px)}nav a{font-size:12.5px}.hero-content{padding:100px 5% 70px}.hero-btns{flex-direction:column;align-items:flex-start}section{padding:60px 5%}.stop-img{height:190px}.highlight{padding:28px}.highlight .emoji{font-size:56px}.register-card{padding:24px 18px}.register-grid{grid-template-columns:1fr}.register-field.full{grid-column:auto}.orb{display:none}}
 @media(max-width:400px){.hero-stats{gap:16px}.stat strong{font-size:22px}}
+
+.day-tabs{display:flex;gap:10px;margin-bottom:28px;flex-wrap:wrap}
+.day-tab{border:0;background:#e8efe4;color:var(--text);padding:12px 20px;border-radius:12px;font:inherit;font-weight:800;cursor:pointer;transition:all .25s}
+.day-tab.active{background:var(--green);color:#fff;box-shadow:0 6px 18px rgba(23,75,56,.25)}
+.timeline{display:none;position:relative;padding-left:28px}
+.timeline.active{display:block}
+.timeline::before{content:'';position:absolute;left:8px;top:8px;bottom:8px;width:3px;background:linear-gradient(to bottom,var(--lime),var(--green));border-radius:4px;opacity:.55}
+.tl-item{position:relative;background:#fff;border-radius:16px;padding:16px 18px 16px 20px;margin-bottom:14px;box-shadow:0 6px 22px rgba(23,62,44,.07);border-left:4px solid var(--green)}
+.tl-item.meal{border-left-color:var(--orange)}
+.tl-item.rest{border-left-color:#6b9bd1}
+.tl-item.travel{border-left-color:#91a98e;opacity:.92}
+.tl-item::before{content:'';position:absolute;left:-32px;top:20px;width:14px;height:14px;border-radius:50%;background:var(--lime);border:3px solid var(--green);box-shadow:0 0 0 3px rgba(215,243,106,.35)}
+.tl-item.meal::before{background:var(--orange);border-color:#e06a3f}
+.tl-item.rest::before{background:#6b9bd1;border-color:#4a7fb0}
+.tl-time{font-size:12.5px;font-weight:800;color:var(--orange);margin-bottom:4px}
+.tl-title{font-size:16px;font-weight:800;margin-bottom:4px}
+.tl-desc{font-size:13.5px;color:var(--muted);line-height:1.6}
+.tl-tag{display:inline-block;margin-top:8px;font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;background:#edf4e7;color:#315c3c}
+.tl-tag.meal{background:#fff0e8;color:#c45a2d}
+.tl-tag.rest{background:#e8f0fa;color:#3a6a9a}
+.section-note{margin-top:18px;font-size:13.5px;color:var(--muted)}
 </style>
 </head>
 <body>
@@ -87,7 +108,16 @@ footer{background:var(--green);color:#fff;text-align:center;padding:48px 20px}fo
 </div>
 <div class="hero-dots" id="heroDots"></div>
 </header>
-<section id="journey"><div class="section-head reveal"><div><div class="eyebrow">THE JOURNEY</div><h2>Chúng ta sẽ đi đâu?</h2></div><p>Đi lần lượt qua 5 chặng hành trình</p></div><div class="route" id="route"></div></section>
+<section id="journey"><div class="section-head reveal"><div><div class="eyebrow">THE JOURNEY</div><h2>Lịch trình 2 ngày 1 đêm</h2></div><p>Điểm đến · Ăn uống · Nghỉ ngơi</p></div>
+<div class="day-tabs reveal" id="dayTabs">
+<button type="button" class="day-tab active" data-day="1">Ngày 1</button>
+<button type="button" class="day-tab" data-day="2">Ngày 2</button>
+</div>
+<div class="timeline active" id="day1"></div>
+<div class="timeline" id="day2"></div>
+<p class="section-note reveal">5 điểm tham quan chính vẫn có thẻ STOP + QR bên dưới.</p>
+<div class="route" id="route" style="margin-top:28px"></div>
+</section>
 <section id="about"><div class="highlight reveal"><div><div class="eyebrow">LET'S EXPLORE</div><h2>Tiếp bước dấu xưa,<br>đón đưa ngày mới.</h2><p>Mỗi điểm đến là một câu chuyện lịch sử.<br>Cùng nhau lưu giữ những kỷ niệm đáng nhớ.</p></div><div class="emoji">🌿 🚌 ☀️</div></div></section>
 <section id="register" class="register-section"><div class="section-head reveal"><div><div class="eyebrow">JOIN THE JOURNEY</div><h2>Đăng ký tham gia</h2></div><p>Điền thông tin để đăng ký chuyến du lịch nhé!</p></div><div class="register-card reveal"><form id="registrationForm" action="https://formsubmit.co/ajax/tien16122009er@gmail.com" method="POST"><input type="hidden" name="_subject" value="Đăng ký tham gia chuyến du lịch"><input type="hidden" name="_captcha" value="false"><input type="hidden" name="_template" value="table"><div class="register-grid"><div class="register-field"><label for="fullname">Họ và tên *</label><input id="fullname" name="Họ và tên" required placeholder="Nhập họ và tên"></div><div class="register-field"><label for="phone">Số điện thoại *</label><input id="phone" name="Số điện thoại" type="tel" required placeholder="Nhập số điện thoại"></div><div class="register-field"><label for="email">Email *</label><input id="email" name="Email" type="email" required placeholder="Nhập email của bạn"></div><div class="register-field"><label for="people">Số lượng người tham gia *</label><input id="people" name="Số lượng người tham gia" type="number" min="1" value="1" required></div><div class="register-field full"><label for="note">Ghi chú thêm</label><textarea id="note" name="Ghi chú thêm" placeholder="Yêu cầu hoặc thông tin khác (nếu có)..."></textarea></div></div><button class="register-submit" type="submit">Gửi đăng ký →</button><p id="registerStatus" class="register-status" role="status" aria-live="polite"></p></form></div></section>
 <footer><img class="footer-logo" src="images/PuKjk.png" alt="Logo" width="110" height="110"><strong>KHAI NGUYÊN ❤️</strong><p>Hành trình khám phá · Company Trip 2026</p></footer>
@@ -101,6 +131,50 @@ function nextSlide(){goToSlide(currentSlide+1)}function startSlider(){slideInter
 startSlider();document.querySelector('.hero').addEventListener('mouseenter',stopSlider);document.querySelector('.hero').addEventListener('mouseleave',startSlider);
 const observer=new IntersectionObserver((entries)=>{entries.forEach((entry)=>{if(entry.isIntersecting){const delay=entry.target.classList.contains('stop')?Array.from(entry.target.parentNode.children).indexOf(entry.target)*80:0;setTimeout(()=>entry.target.classList.add('visible'),delay);observer.unobserve(entry.target)}})},{threshold:.12,rootMargin:'0px 0px -30px 0px'});
 document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+const day1=[
+{type:'travel',time:'05:00 – 05:45',title:'Tập trung tại Trường THPT Thái Hòa',desc:'Điểm danh, ổn định đoàn và sắp xếp hành lý lên xe.'},
+{type:'meal',time:'05:45 – 06:15',title:'Di chuyển + Ăn sáng trên xe',desc:'Ăn bánh mì và nước uống trên đường đến Cù Lao Rùa.'},
+{type:'place',time:'06:15 – 06:45',title:'Cù Lao Rùa',desc:'Ngắm cảnh, chụp ảnh lưu niệm (30 phút).'},
+{type:'travel',time:'07:00 – 08:30',title:'Di chuyển đến Bến Nhà Rồng',desc:'Di chuyển đoàn.'},
+{type:'place',time:'08:30 – 09:30',title:'Bến Nhà Rồng – Bảo tàng Hồ Chí Minh',desc:'Tham quan, tìm hiểu lịch sử (1 tiếng).'},
+{type:'travel',time:'09:45 – 10:15',title:'Di chuyển về khách sạn T.78',desc:''},
+{type:'rest',time:'10:15 – 11:30',title:'Gửi hành lý & nghỉ ngơi',desc:'Chuẩn bị ăn trưa tại khách sạn T.78.'},
+{type:'meal',time:'11:30 – 12:30',title:'Ăn trưa – Khách sạn T.78',desc:'Ăn trưa tại nhà hàng khách sạn.'},
+{type:'rest',time:'12:30 – 13:00',title:'Nghỉ ngơi sau bữa trưa',desc:'Nghỉ tại khách sạn.'},
+{type:'place',time:'13:30 – 15:30',title:'Dinh Độc Lập',desc:'Tham quan di tích lịch sử (2 tiếng).'},
+{type:'rest',time:'16:00 – 17:30',title:'Nhận phòng & nghỉ ngơi',desc:'Làm thủ tục nhận phòng tại khách sạn T.78.'},
+{type:'meal',time:'17:30 – 18:30',title:'Ăn tối – Khách sạn T.78',desc:'Ăn tối tại nhà hàng khách sạn.'},
+{type:'place',time:'19:30 – 20:15',title:'Công viên Vinhomes Central Park',desc:'Tham quan công viên (45 phút).'},
+{type:'place',time:'20:45 – 21:45',title:'Công viên Bến Bạch Đằng',desc:'Nghe giới thiệu địa điểm, chụp ảnh lưu niệm (1 tiếng).'},
+{type:'rest',time:'22:30',title:'Nghỉ đêm – Khách sạn T.78',desc:'Về khách sạn, nghỉ đêm.'}
+];
+const day2=[
+{type:'meal',time:'06:00 – 07:00',title:'Ăn sáng – Khách sạn T.78',desc:'Ăn sáng tại khách sạn.'},
+{type:'rest',time:'07:00 – 07:30',title:'Trả phòng & tập trung',desc:'Thu dọn hành lý, làm thủ tục trả phòng, lên xe.'},
+{type:'place',time:'07:45 – 09:45',title:'Bảo tàng Chứng tích Chiến tranh',desc:'Tham quan bảo tàng (2 tiếng).'},
+{type:'meal',time:'10:45 – 11:45',title:'Ăn trưa – khu vực Nhà Bè',desc:'Ăn trưa tại nhà hàng khu vực Nhà Bè.'},
+{type:'place',time:'12:30 – 13:15',title:'Nghĩa trang Liệt sĩ Nhà Bè',desc:'Viếng nghĩa trang, dâng hương, tưởng niệm (45 phút).'},
+{type:'travel',time:'13:30 – 15:30',title:'Khởi hành về Trường THPT Thái Hòa',desc:'Kết thúc chương trình tour. Dự kiến về trường 15:30.'}
+];
+function renderTimeline(list, el){
+  el.innerHTML = list.map(i=>{
+    const cls = i.type==='meal'?'meal':i.type==='rest'?'rest':i.type==='travel'?'travel':'';
+    const tag = i.type==='meal'?'Ăn uống':i.type==='rest'?'Nghỉ ngơi':i.type==='travel'?'Di chuyển':'Tham quan';
+    const tagCls = i.type==='meal'?'meal':i.type==='rest'?'rest':'';
+    return `<div class="tl-item ${cls}"><div class="tl-time">◷ ${i.time}</div><div class="tl-title">${i.title}</div>${i.desc?`<div class="tl-desc">${i.desc}</div>`:''}<span class="tl-tag ${tagCls}">${tag}</span></div>`;
+  }).join('');
+}
+renderTimeline(day1, document.getElementById('day1'));
+renderTimeline(day2, document.getElementById('day2'));
+document.getElementById('dayTabs').addEventListener('click', e=>{
+  const btn = e.target.closest('.day-tab'); if(!btn) return;
+  document.querySelectorAll('.day-tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('day1').classList.toggle('active', btn.dataset.day==='1');
+  document.getElementById('day2').classList.toggle('active', btn.dataset.day==='2');
+});
+
 const places=[
 {name:"Cù Lao Rùa",time:"06:15 – 06:45 · Ngày 1",img:"images/5.jpg",desc:"Ngắm cảnh Cù Lao Rùa, chụp ảnh lưu niệm và khởi động hành trình.",address:"Cù Lao Rùa, Bình Dương",map:"",qr:"images/qrcode_425215887_f4028e976987691ea3c8008d5ff4409d.png"},
 {name:"Bến Nhà Rồng",time:"08:30 – 09:30 · Ngày 1",img:"images/3.jpg",desc:"Tham quan Bến Nhà Rồng – Bảo tàng Hồ Chí Minh, tìm hiểu lịch sử.",address:"Bến Nhà Rồng, Quận 4",map:"",qr:"images/qrcode_425215743_d89c57bb61a746857b357b1e013099ef.png"},
