@@ -192,6 +192,20 @@ footer p{color:#9db5a8;font-size:13px;margin-top:12px;position:relative}
 }
 @media(max-width:400px){.hero-stats{gap:10px}.stat strong{font-size:22px}}
 
+.tl-item{cursor:default}
+.tl-item.is-collapsible{cursor:pointer}
+.tl-item .tl-desc{display:none}
+.tl-item.open .tl-desc{display:block}
+.tl-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.tl-toggle{flex-shrink:0;width:28px;height:28px;border-radius:8px;border:1px solid var(--line);
+  background:#f3f6f0;color:var(--green);font-size:16px;font-weight:800;line-height:1;
+  display:grid;place-items:center;transition:transform .25s,background .25s}
+.tl-item.open .tl-toggle{transform:rotate(45deg);background:var(--lime)}
+.timeline-actions{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+.tl-action{border:1px solid var(--line);background:#fff;color:var(--green);padding:8px 14px;
+  border-radius:10px;font:inherit;font-size:12.5px;font-weight:700;cursor:pointer;transition:all .2s}
+.tl-action:hover{background:var(--lime);border-color:transparent}
+
 </style>
 </head>
 <body>
@@ -219,6 +233,10 @@ footer p{color:#9db5a8;font-size:13px;margin-top:12px;position:relative}
 <div class="day-tabs reveal" id="dayTabs">
 <button type="button" class="day-tab active" data-day="1">Ngày 1</button>
 <button type="button" class="day-tab" data-day="2">Ngày 2</button>
+</div>
+<div class="timeline-actions reveal" id="tlActions">
+<button type="button" class="tl-action" data-act="expand">Mở tất cả</button>
+<button type="button" class="tl-action" data-act="collapse">Thu gọn</button>
 </div>
 <div class="timeline active" id="day1"></div>
 <div class="timeline" id="day2"></div>
@@ -269,9 +287,24 @@ function renderTimeline(list, el){
     const cls = i.type==='meal'?'meal':i.type==='rest'?'rest':i.type==='travel'?'travel':'';
     const tag = i.type==='meal'?'Ăn uống':i.type==='rest'?'Nghỉ ngơi':i.type==='travel'?'Di chuyển':'Tham quan';
     const tagCls = i.type==='meal'?'meal':i.type==='rest'?'rest':'';
-    return `<div class="tl-item ${cls}"><div class="tl-time">◷ ${i.time}</div><div class="tl-title">${i.title}</div>${i.desc?`<div class="tl-desc">${i.desc}</div>`:''}<span class="tl-tag ${tagCls}">${tag}</span></div>`;
+    const hasDesc = !!(i.desc && i.desc.trim());
+    const coll = hasDesc ? 'is-collapsible' : '';
+    const btn = hasDesc ? '<button type="button" class="tl-toggle" aria-label="Mở/đóng">+</button>' : '';
+    return `<div class="tl-item ${cls} ${coll}"><div class="tl-head"><div><div class="tl-time">◷ ${i.time}</div><div class="tl-title">${i.title}</div></div>${btn}</div>${hasDesc?`<div class="tl-desc">${i.desc}</div>`:''}<span class="tl-tag ${tagCls}">${tag}</span></div>`;
   }).join('');
 }
+document.addEventListener('click',function(e){
+  const item=e.target.closest('.tl-item.is-collapsible');
+  if(item && (e.target.classList.contains('tl-toggle') || e.target.closest('.tl-head'))){
+    if(e.target.closest('a'))return;
+    item.classList.toggle('open');
+  }
+  const act=e.target.closest('.tl-action');
+  if(act){
+    const open=act.dataset.act==='expand';
+    document.querySelectorAll('.timeline.active .tl-item.is-collapsible').forEach(el=>el.classList.toggle('open',open));
+  }
+});
 renderTimeline(day1, document.getElementById('day1'));
 renderTimeline(day2, document.getElementById('day2'));
 document.getElementById('dayTabs').addEventListener('click', e=>{
