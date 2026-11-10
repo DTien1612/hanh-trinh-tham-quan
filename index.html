@@ -5,6 +5,166 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Khai Nguyên - Hành trình khám phá</title>
 <style>
-/* PLACEHOLDER - will use full file */
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;800&display=swap');
+:root{--green:#0f3d2e;--green-mid:#174b38;--lime:#d7f36a;--orange:#ff875b;--cream:#f4f1e8;--ink:#12281f;--muted:#5f7368;--card:#fffcf6;--line:rgba(15,61,46,.08)}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+body{font-family:'Be Vietnam Pro',sans-serif;background:var(--cream);color:var(--ink);overflow-x:hidden;background-image:radial-gradient(ellipse 900px 500px at 0% 0%,rgba(215,243,106,.18),transparent),radial-gradient(ellipse 700px 400px at 100% 30%,rgba(255,135,91,.08),transparent),linear-gradient(180deg,#f4f1e8 0%,#ebe6d9 100%)}
+nav{display:flex;justify-content:space-between;align-items:center;padding:14px 6%;background:rgba(15,61,46,.92);backdrop-filter:blur(18px);color:#fff;position:fixed;top:0;left:0;right:0;z-index:100;border-bottom:1px solid rgba(215,243,106,.15);transition:padding .3s,background .3s}
+nav.scrolled{padding-top:10px;padding-bottom:10px;background:rgba(10,40,30,.96);box-shadow:0 12px 40px rgba(0,0,0,.25)}
+.brand{display:flex;align-items:center;gap:12px;flex-shrink:0}
+.brand-logo{width:clamp(34px,3.8vw,44px);height:auto;display:block;object-fit:contain;filter:drop-shadow(0 2px 6px rgba(0,0,0,.3))}
+.logo{font-weight:900;font-size:clamp(13px,1.6vw,17px);letter-spacing:1.5px;text-transform:uppercase;white-space:nowrap}.logo span{color:var(--lime)}
+nav .nav-links{display:flex;gap:clamp(14px,2.5vw,32px);align-items:center}
+nav a{color:rgba(255,255,255,.88);text-decoration:none;font-size:clamp(12px,1.1vw,14px);font-weight:600;letter-spacing:.3px;position:relative}
+nav a::after{content:'';position:absolute;left:0;bottom:-4px;width:0;height:2px;background:var(--lime);transition:width .3s}
+nav a:hover{color:#fff}nav a:hover::after{width:100%}
+.hero{min-height:100vh;color:#fff;position:relative;overflow:hidden;display:grid;align-items:center}
+.hero-slider{position:absolute;inset:0;z-index:0}
+.hero-slide{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transform:scale(1.08);transition:opacity 1.4s,transform 8s}
+.hero-slide.active{opacity:1;transform:scale(1)}
+.hero-overlay{position:absolute;inset:0;z-index:1;background:linear-gradient(105deg,rgba(8,28,20,.92) 0%,rgba(12,40,28,.55) 50%,rgba(12,40,28,.2) 100%),radial-gradient(ellipse at 75% 35%,rgba(215,243,106,.15),transparent 50%)}
+.orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:.28;pointer-events:none;z-index:1;animation:float-orb 18s ease-in-out infinite}
+.orb-1{width:340px;height:340px;background:#d7f36a;top:8%;left:2%}.orb-2{width:240px;height:240px;background:#6ec9a0;top:55%;right:4%;animation-delay:-6s}.orb-3{width:180px;height:180px;background:#ff875b;bottom:12%;left:30%;animation-delay:-11s;opacity:.15}
+.hero-content{position:relative;z-index:2;padding:130px 6% 90px;max-width:720px}
+.tag{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;border-radius:999px;background:rgba(215,243,106,.12);color:var(--lime);font-size:11px;letter-spacing:2.5px;font-weight:800;border:1px solid rgba(215,243,106,.3);animation:fadeUp .8s ease both}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(40px,7vw,76px);line-height:1.05;margin:22px 0 18px;letter-spacing:-1.5px;animation:fadeUp .9s .1s ease both}.hero h1 span{color:var(--lime);font-style:italic}
+.hero p{color:#c5d6cc;max-width:420px;line-height:1.85;font-size:15.5px;animation:fadeUp .9s .22s ease both}
+.hero-btns{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px;animation:fadeUp .9s .35s ease both}
+.hero-btn{display:inline-flex;align-items:center;gap:8px;padding:15px 26px;border-radius:14px;font-weight:800;text-decoration:none;transition:all .3s;font-size:14px}
+.hero-btn.primary{background:var(--lime);color:var(--green);box-shadow:0 8px 28px rgba(215,243,106,.35);position:relative;isolation:isolate;overflow:hidden;background-image:linear-gradient(110deg,transparent 35%,rgba(255,255,255,.78) 50%,transparent 65%);background-repeat:no-repeat;background-size:42% 100%;background-position:-150% 0;animation:heroButtonShineInside 2.4s ease-in-out infinite}
+.hero-btn.primary:hover{transform:translateY(-3px);box-shadow:0 14px 36px rgba(215,243,106,.45)}
+.hero a.hero-btn.secondary{background:transparent!important;background-color:transparent!important;background-image:none!important;border:1.5px solid rgba(255,255,255,.65)!important;color:#fff!important;box-shadow:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+.hero a.hero-btn.secondary:hover,.hero a.hero-btn.secondary:focus-visible{background:rgba(255,255,255,.08)!important;border-color:rgba(255,255,255,.9)!important;box-shadow:none!important}
+.hero-stats{display:flex;gap:14px;margin-top:48px;flex-wrap:wrap;animation:fadeUp .9s .5s ease both}
+.stat{background:transparent;border:0;box-shadow:none;padding:16px 20px;border-radius:18px;min-width:100px}
+.stat strong{display:block;font-size:28px;color:var(--lime);font-weight:900;line-height:1.1}.stat small{color:#a8c0b4;font-size:12px;font-weight:600;letter-spacing:.3px}
+.hero-dots{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);z-index:3;display:flex;gap:8px;background:rgba(0,0,0,.35);padding:10px 16px;border-radius:999px;backdrop-filter:blur(8px)}
+.hero-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.35);border:none;cursor:pointer;transition:all .35s;padding:0}.hero-dot.active{background:var(--lime);width:26px;border-radius:10px;box-shadow:0 0 14px rgba(215,243,106,.55)}
+section{padding:88px 6%}.eyebrow{color:var(--orange);font-size:11px;font-weight:800;letter-spacing:2.8px;text-transform:uppercase}
+.section-head{display:flex;justify-content:space-between;align-items:end;gap:16px;margin-bottom:40px;flex-wrap:wrap}
+.section-head h2{font-family:'Playfair Display',serif;font-size:clamp(28px,4.2vw,42px);margin-top:8px;letter-spacing:-.5px;color:var(--green)}
+.section-head p{color:var(--muted);font-size:14.5px;max-width:260px;text-align:right}
+.timeline{display:none;position:relative;padding-left:32px;max-width:720px}
+.timeline::before{content:'';position:absolute;left:10px;top:6px;bottom:6px;width:2px;background:linear-gradient(to bottom,var(--lime),rgba(15,61,46,.12));border-radius:4px}
+.tl-item{position:relative;background:var(--card);border-radius:18px;padding:18px 20px;margin-bottom:14px;border:1px solid var(--line);box-shadow:0 6px 24px rgba(15,61,46,.05);transition:transform .3s,box-shadow .3s}
+.tl-item:hover{transform:translateX(8px);box-shadow:0 14px 36px rgba(15,61,46,.1)}
+.tl-item::before{content:'';position:absolute;left:-29px;top:22px;width:12px;height:12px;border-radius:50%;background:var(--lime);border:3px solid var(--green);box-shadow:0 0 0 4px rgba(215,243,106,.25)}
+.tl-item.meal{border-left:3px solid var(--orange)}.tl-item.meal::before{background:var(--orange);border-color:#c45a2d;box-shadow:0 0 0 4px rgba(255,135,91,.2)}
+.tl-item.rest{border-left:3px solid #6b9bd1}.tl-item.rest::before{background:#6b9bd1;border-color:#4a7fb0;box-shadow:0 0 0 4px rgba(107,155,209,.2)}
+.tl-item.travel{opacity:.9}
+.tl-time{font-size:12px;font-weight:800;color:var(--orange);margin-bottom:4px;letter-spacing:.3px}
+.tl-title{font-size:16px;font-weight:800;margin-bottom:4px;color:var(--green)}
+.tl-desc{font-size:13.5px;color:var(--muted);line-height:1.65}
+.tl-tag{display:inline-block;margin-top:10px;font-size:10px;font-weight:800;padding:4px 11px;border-radius:999px;background:#e8f0e3;color:#2d5a3c;letter-spacing:.6px;text-transform:uppercase}
+.tl-tag.meal{background:#fff0e8;color:#c45a2d}.tl-tag.rest{background:#e8f0fa;color:#3a6a9a}
+.section-note{margin:20px 0 8px;font-size:13px;color:var(--muted)}
+.route{display:grid;grid-template-columns:repeat(2,1fr);gap:22px;margin-top:12px}
+.stop{background:rgba(224,240,216,.58);border-radius:24px;overflow:hidden;border:1px solid rgba(255,255,255,.78);box-shadow:0 10px 32px rgba(34,82,48,.08),inset 0 1px 0 rgba(255,255,255,.7);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);transition:all .45s;opacity:0;transform:translateY(40px)}
+.stop.visible{opacity:1;transform:translateY(0)}.stop:hover{transform:translateY(-10px);box-shadow:0 18px 42px rgba(34,82,48,.14),inset 0 1px 0 rgba(255,255,255,.8)}
+.stop-img{height:210px;position:relative;overflow:hidden;background-size:cover;background-position:center;background-color:#1a3a2a}
+.stop-img::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(8,28,20,.55),transparent 55%)}
+.stop-no{position:absolute;left:14px;top:14px;background:var(--lime);color:var(--green);padding:7px 13px;border-radius:999px;font-size:11px;font-weight:900;z-index:2;letter-spacing:.5px;box-shadow:0 4px 16px rgba(215,243,106,.4)}
+.stop-body{padding:22px 22px 24px;position:relative;background:rgba(235,246,229,.42)}
+.stop-body::before{content:'';position:absolute;left:22px;top:0;width:32px;height:3px;background:var(--lime);border-radius:4px}
+.time{color:var(--orange);font-size:12px;font-weight:800;margin-top:8px;letter-spacing:.2px}
+.stop h3{font-size:18px;margin:8px 0 6px;color:var(--green);font-weight:800}.stop p{color:var(--muted);font-size:13.5px;line-height:1.75}
+.stop-foot{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px;align-items:center}
+.qr-btn,.map-btn{border:0;border-radius:12px;padding:12px 16px;font-weight:700;font-size:12.5px;cursor:pointer;text-decoration:none;transition:all .25s}
+.qr-btn{background:#eef5e8;color:#2d5a3c}.qr-btn:hover{background:#dcecd3;transform:translateY(-2px)}
+.map-btn{background:var(--green);color:#fff}.map-btn:hover{background:#0a2e22;transform:translateY(-2px)}
+.qr-area{display:none;background:#f0f5eb;padding:16px;border-radius:16px;text-align:center;margin-top:14px;border:1px dashed rgba(15,61,46,.15)}.qr-area.show{display:block}.qr-area p{font-size:12.5px;margin-top:8px}
+.qr-placeholder{width:120px;height:120px;border:2px dashed #91a98e;margin:10px auto;display:grid;place-items:center;color:#718078;font-size:12px;border-radius:12px;background:#fff}
+.highlight{background:linear-gradient(135deg,#e4efd6 0%,#d4e5c4 50%,#c8dcb6 100%);border-radius:32px;padding:52px;display:flex;justify-content:space-between;align-items:center;gap:28px;flex-wrap:wrap;position:relative;overflow:hidden;border:1px solid rgba(15,61,46,.08);box-shadow:0 16px 48px rgba(15,61,46,.08)}
+.highlight::before{content:'';position:absolute;width:280px;height:280px;border-radius:50%;background:rgba(215,243,106,.3);filter:blur(50px);top:-80px;right:-50px;pointer-events:none}
+.highlight h2{font-family:'Playfair Display',serif;font-size:clamp(26px,3.5vw,34px);margin:10px 0;color:var(--green);position:relative}
+.highlight p{color:var(--muted);font-size:15px;line-height:1.85;position:relative}.highlight .emoji{font-size:64px;animation:float 3.2s ease-in-out infinite;position:relative}
+.register-section{background:linear-gradient(180deg,transparent,rgba(15,61,46,.04))}
+.register-card{max-width:780px;margin:auto;background:var(--card);padding:40px;border-radius:28px;border:1px solid var(--line);box-shadow:0 20px 56px rgba(15,61,46,.1)}
+.register-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.register-field{text-align:left}.register-field.full{grid-column:1/-1}
+.register-field label{display:block;font-size:12.5px;font-weight:700;margin-bottom:8px;color:var(--green);letter-spacing:.2px}
+.register-field input,.register-field textarea{width:100%;padding:14px 16px;border:1.5px solid rgba(15,61,46,.12);border-radius:14px;font:inherit;font-size:14.5px;background:#fff;transition:border-color .25s,box-shadow .25s}
+.register-field input:focus,.register-field textarea:focus{outline:none;border-color:var(--lime);box-shadow:0 0 0 4px rgba(215,243,106,.28)}
+.register-field textarea{min-height:100px;resize:vertical}
+.register-submit{margin-top:24px;padding:16px 28px;border:0;border-radius:14px;background:linear-gradient(135deg,#174b38,#0f3d2e);color:#fff;font:inherit;font-weight:800;cursor:pointer;transition:all .3s;box-shadow:0 8px 28px rgba(15,61,46,.3);letter-spacing:.3px;width:100%}
+.register-submit:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 14px 36px rgba(15,61,46,.4)}.register-submit:disabled{opacity:.65;cursor:wait}
+.register-status{margin-top:14px;font-size:14.5px;line-height:1.6;min-height:22px;text-align:center}
+footer{background:var(--green);color:#fff;text-align:center;padding:56px 20px;position:relative;overflow:hidden}
+footer::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% -20%,rgba(215,243,106,.15),transparent 55%);pointer-events:none}
+footer .footer-logo{width:clamp(80px,14vw,120px);height:auto;display:block;margin:0 auto 18px;object-fit:contain;filter:drop-shadow(0 8px 24px rgba(0,0,0,.35));position:relative}
+footer strong{color:var(--lime);font-size:20px;letter-spacing:1.5px;position:relative;display:block}
+footer p{color:#9db5a8;font-size:13px;margin-top:12px;position:relative}
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+@keyframes float-orb{0%{transform:translate(0,0) scale(1)}33%{transform:translate(28px,-36px) scale(1.06)}66%{transform:translate(-18px,18px) scale(.96)}100%{transform:translate(0,0) scale(1)}}
+@keyframes heroButtonShineInside{0%,12%{background-position:-150% 0}62%,100%{background-position:250% 0}}
+.reveal{opacity:0;transform:translateY(36px);transition:opacity .75s,transform .75s}.reveal.visible{opacity:1;transform:translateY(0)}
+.day-panel{margin-bottom:14px;border:1px solid rgba(255,255,255,.72);border-radius:18px;background:rgba(220,239,211,.52);overflow:hidden;box-shadow:0 8px 28px rgba(34,82,48,.09),inset 0 1px 0 rgba(255,255,255,.65);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+.day-toggle{width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 20px;border:0;background:linear-gradient(135deg,rgba(190,220,174,.88),rgba(215,237,201,.78));color:#174b38;font:inherit;font-weight:800;font-size:15px;cursor:pointer;text-align:left;border-bottom:1px solid rgba(255,255,255,.7)}
+.day-toggle .chev{width:28px;height:28px;border-radius:8px;background:rgba(255,255,255,.48);display:grid;place-items:center;transition:transform .3s;font-size:18px;line-height:1;color:#285b3b}
+.day-panel.open .day-toggle .chev{transform:rotate(180deg)}
+.day-panel .timeline{display:none;padding:16px 16px 8px 40px;max-width:none}.day-panel.open .timeline{display:block}
+@media(max-width:900px){.route{grid-template-columns:1fr}}
+@media(max-width:700px){nav{padding-left:5%;padding-right:5%}nav .nav-links{gap:14px}nav a{font-size:12.5px}.hero-content{padding:110px 5% 80px}.hero-btns{flex-direction:column;align-items:flex-start}section{padding:64px 5%}.section-head p{text-align:left;max-width:none}.stop-img{height:190px}.highlight{padding:32px 24px}.highlight .emoji{font-size:48px}.register-card{padding:28px 18px}.register-grid{grid-template-columns:1fr}.register-field.full{grid-column:auto}.orb{display:none}.stat{min-width:auto;padding:12px 14px}}
+@media(max-width:400px){.hero-stats{gap:10px}.stat strong{font-size:22px}}
+@media(prefers-reduced-motion:reduce){.hero-btn.primary{animation:none;background-image:none}}
 </style>
-</head><body></body></html>
+</head>
+<body>
+<nav id="mainNav"><div class="brand"><img class="brand-logo" src="images/PuKjk.png" alt="Logo" width="46" height="46"><div class="logo">KHAI<span> NGUYÊN</span></div></div><div class="nav-links"><a href="#journey">Lịch trình</a><a href="#about">Giới thiệu</a><a href="#register">Đăng ký</a></div></nav>
+<header class="hero">
+<div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div>
+<div class="hero-slider" id="heroSlider">
+<div class="hero-slide active" style="background-image:url('images/song-cu-lao.jpg')"></div>
+<div class="hero-slide" style="background-image:url('images/dinh-doc-lap.jpg')"></div>
+<div class="hero-slide" style="background-image:url('images/bao-tang-chung-tich.jpg')"></div>
+<div class="hero-slide" style="background-image:url('images/bao-tang-ho-chi-minh.jpg')"></div>
+<div class="hero-slide" style="background-image:url('images/song-cu-lao-2.jpg')"></div>
+</div>
+<div class="hero-overlay"></div>
+<div class="hero-content">
+<div class="tag">✦ COMPANY TRIP 2026</div>
+<h1>Tiếp bước dấu xưa.<br><span>Đón đưa ngày mới.</span></h1>
+<p>Cùng nhau rời khỏi những ngày bận rộn, khám phá những vùng đất mới và tạo nên những khoảnh khắc đáng nhớ.</p>
+<div class="hero-btns"><a href="#journey" class="hero-btn primary">Khám phá lịch trình ↓</a><a href="#register" class="hero-btn secondary">Đăng ký tham gia →</a></div>
+<div class="hero-stats"><div class="stat"><strong>05</strong><small>Điểm đến</small></div><div class="stat"><strong>01</strong><small>Hành trình</small></div><div class="stat"><strong>∞</strong><small>Kỷ niệm</small></div></div>
+</div>
+<div class="hero-dots" id="heroDots"></div>
+</header>
+<section id="journey"><div class="section-head reveal"><div><div class="eyebrow">THE JOURNEY</div><h2>Lịch trình 2 ngày 1 đêm</h2></div><p>Điểm đến · Ăn uống · Nghỉ ngơi</p></div>
+<div class="day-panel open reveal" id="panel1">
+<button type="button" class="day-toggle" data-panel="1"><span>Ngày 1 — Khởi hành & tham quan</span><span class="chev">▾</span></button>
+<div class="timeline" id="day1"></div>
+</div>
+<div class="day-panel reveal" id="panel2">
+<button type="button" class="day-toggle" data-panel="2"><span>Ngày 2 — Tiếp nối & về trường</span><span class="chev">▾</span></button>
+<div class="timeline" id="day2"></div>
+</div>
+<p class="section-note reveal">5 điểm tham quan chính vẫn có thẻ STOP + QR bên dưới.</p>
+<div class="route" id="route" style="margin-top:28px"></div>
+</section>
+<section id="about"><div class="highlight reveal"><div><div class="eyebrow">LET'S EXPLORE</div><h2>Tiếp bước dấu xưa,<br>đón đưa ngày mới.</h2><p>Mỗi điểm đến là một câu chuyện lịch sử.<br>Cùng nhau lưu giữ những kỷ niệm đáng nhớ.</p></div><div class="emoji">🌿 🚌 ☀️</div></div></section>
+<section id="register" class="register-section"><div class="section-head reveal"><div><div class="eyebrow">JOIN THE JOURNEY</div><h2>Đăng ký tham gia</h2></div><p>Điền thông tin để đăng ký chuyến du lịch nhé!</p></div><div class="register-card reveal"><form id="registrationForm" action="https://formsubmit.co/ajax/tien16122009er@gmail.com" method="POST"><input type="hidden" name="_subject" value="Đăng ký tham gia chuyến du lịch"><input type="hidden" name="_captcha" value="false"><input type="hidden" name="_template" value="table"><div class="register-grid"><div class="register-field"><label for="fullname">Họ và tên *</label><input id="fullname" name="Họ và tên" required placeholder="Nhập họ và tên"></div><div class="register-field"><label for="phone">Số điện thoại *</label><input id="phone" name="Số điện thoại" type="tel" required placeholder="Nhập số điện thoại"></div><div class="register-field"><label for="email">Email *</label><input id="email" name="Email" type="email" required placeholder="Nhập email của bạn"></div><div class="register-field"><label for="people">Số lượng người tham gia *</label><input id="people" name="Số lượng người tham gia" type="number" min="1" value="1" required></div><div class="register-field full"><label for="note">Ghi chú thêm</label><textarea id="note" name="Ghi chú thêm" placeholder="Yêu cầu hoặc thông tin khác (nếu có)..."></textarea></div></div><button class="register-submit" type="submit">Gửi đăng ký →</button><p id="registerStatus" class="register-status" role="status" aria-live="polite"></p></form></div></section>
+<footer><img class="footer-logo" src="images/PuKjk.png" alt="Logo" width="110" height="110"><strong>KHAI NGUYÊN ❤️</strong><p>Hành trình khám phá · Company Trip 2026</p></footer>
+<script>
+const nav=document.getElementById('mainNav');window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',window.scrollY>40));
+const slides=document.querySelectorAll('.hero-slide'),dotsContainer=document.getElementById('heroDots');let currentSlide=0,slideInterval;
+slides.forEach((_,i)=>{const d=document.createElement('button');d.className='hero-dot'+(i===0?' active':'');d.setAttribute('aria-label','Slide '+(i+1));d.addEventListener('click',()=>goToSlide(i));dotsContainer.appendChild(d)});
+const dots=document.querySelectorAll('.hero-dot');
+function goToSlide(n){slides[currentSlide].classList.remove('active');dots[currentSlide].classList.remove('active');currentSlide=(n+slides.length)%slides.length;void slides[currentSlide].offsetWidth;slides[currentSlide].classList.add('active');dots[currentSlide].classList.add('active')}
+function nextSlide(){goToSlide(currentSlide+1)}function startSlider(){slideInterval=setInterval(nextSlide,4200)}function stopSlider(){clearInterval(slideInterval)}
+startSlider();document.querySelector('.hero').addEventListener('mouseenter',stopSlider);document.querySelector('.hero').addEventListener('mouseleave',startSlider);
+const observer=new IntersectionObserver((entries)=>{entries.forEach((entry)=>{if(entry.isIntersecting){const delay=entry.target.classList.contains('stop')?Array.from(entry.target.parentNode.children).indexOf(entry.target)*80:0;setTimeout(()=>entry.target.classList.add('visible'),delay);observer.unobserve(entry.target)}})},{threshold:.12,rootMargin:'0px 0px -30px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+const day1=[{type:'travel',time:'05:00 – 05:45',title:'Tập trung tại Trường THPT Thái Hòa',desc:'Điểm danh, ổn định đoàn và sắp xếp hành lý lên xe.'},{type:'meal',time:'05:45 – 06:15',title:'Di chuyển + Ăn sáng trên xe',desc:'Ăn bánh mì và nước uống trên đường đến Cù Lao Rùa.'},{type:'place',time:'06:15 – 06:45',title:'Cù Lao Rùa',desc:'Ngắm cảnh, chụp ảnh lưu niệm (30 phút).'},{type:'travel',time:'07:00 – 08:30',title:'Di chuyển đến Bến Nhà Rồng',desc:'Di chuyển đoàn.'},{type:'place',time:'08:30 – 09:30',title:'Bến Nhà Rồng – Bảo tàng Hồ Chí Minh',desc:'Tham quan, tìm hiểu lịch sử (1 tiếng).'},{type:'travel',time:'09:45 – 10:15',title:'Di chuyển về khách sạn T.78',desc:''},{type:'rest',time:'10:15 – 11:30',title:'Gửi hành lý & nghỉ ngơi',desc:'Chuẩn bị ăn trưa tại khách sạn T.78.'},{type:'meal',time:'11:30 – 12:30',title:'Ăn trưa – Khách sạn T.78',desc:'Ăn trưa tại nhà hàng khách sạn.'},{type:'rest',time:'12:30 – 13:00',title:'Nghỉ ngơi sau bữa trưa',desc:'Nghỉ tại khách sạn.'},{type:'place',time:'13:30 – 15:30',title:'Dinh Độc Lập',desc:'Tham quan di tích lịch sử (2 tiếng).'},{type:'rest',time:'16:00 – 17:30',title:'Nhận phòng & nghỉ ngơi',desc:'Làm thủ tục nhận phòng tại khách sạn T.78.'},{type:'meal',time:'17:30 – 18:30',title:'Ăn tối – Khách sạn T.78',desc:'Ăn tối tại nhà hàng khách sạn.'},{type:'place',time:'19:30 – 20:15',title:'Công viên Vinhomes Central Park',desc:'Tham quan công viên (45 phút).'},{type:'place',time:'20:45 – 21:45',title:'Công viên Bến Bạch Đằng',desc:'Nghe giới thiệu địa điểm, chụp ảnh lưu niệm (1 tiếng).'},{type:'rest',time:'22:30',title:'Nghỉ đêm – Khách sạn T.78',desc:'Về khách sạn, nghỉ đêm.'}];
+const day2=[{type:'meal',time:'06:00 – 07:00',title:'Ăn sáng – Khách sạn T.78',desc:'Ăn sáng tại khách sạn.'},{type:'rest',time:'07:00 – 07:30',title:'Trả phòng & tập trung',desc:'Thu dọn hành lý, làm thủ tục trả phòng, lên xe.'},{type:'place',time:'07:45 – 09:45',title:'Bảo tàng Chứng tích Chiến tranh',desc:'Tham quan bảo tàng (2 tiếng).'},{type:'meal',time:'10:45 – 11:45',title:'Ăn trưa – khu vực Nhà Bè',desc:'Ăn trưa tại nhà hàng khu vực Nhà Bè.'},{type:'place',time:'12:30 – 13:15',title:'Nghĩa trang Liệt sĩ Nhà Bè',desc:'Viếng nghĩa trang, dâng hương, tưởng niệm (45 phút).'},{type:'travel',time:'13:30 – 15:30',title:'Khởi hành về Trường THPT Thái Hòa',desc:'Kết thúc chương trình tour. Dự kiến về trường 15:30.'}];
+function renderTimeline(list,el){el.innerHTML=list.map(i=>{const cls=i.type==='meal'?'meal':i.type==='rest'?'rest':i.type==='travel'?'travel':'';const tag=i.type==='meal'?'Ăn uống':i.type==='rest'?'Nghỉ ngơi':i.type==='travel'?'Di chuyển':'Tham quan';const tagCls=i.type==='meal'?'meal':i.type==='rest'?'rest':'';return `<div class="tl-item ${cls}"><div class="tl-time">◷ ${i.time}</div><div class="tl-title">${i.title}</div>${i.desc?`<div class="tl-desc">${i.desc}</div>`:''}<span class="tl-tag ${tagCls}">${tag}</span></div>`}).join('')}
+document.querySelectorAll('.day-toggle').forEach(btn=>{btn.addEventListener('click',()=>{const panel=document.getElementById('panel'+btn.dataset.panel);if(panel)panel.classList.toggle('open')})});
+renderTimeline(day1,document.getElementById('day1'));renderTimeline(day2,document.getElementById('day2'));
+const places=[{name:"Cù Lao Rùa",time:"06:15 – 06:45 · Ngày 1",img:"images/5.jpg",desc:"Ngắm cảnh Cù Lao Rùa, chụp ảnh lưu niệm và khởi động hành trình.",address:"Cù Lao Rùa, Bình Dương",map:"",qr:"images/qrcode_425215887_f4028e976987691ea3c8008d5ff4409d.png"},{name:"Bến Nhà Rồng",time:"08:30 – 09:30 · Ngày 1",img:"images/3.jpg",desc:"Tham quan Bến Nhà Rồng – Bảo tàng Hồ Chí Minh, tìm hiểu lịch sử.",address:"Bến Nhà Rồng, Quận 4",map:"",qr:"images/qrcode_425215743_d89c57bb61a746857b357b1e013099ef.png"},{name:"Dinh Độc Lập",time:"13:30 – 15:30 · Ngày 1",img:"images/4.jpg",desc:"Tham quan Dinh Độc Lập – di tích lịch sử quan trọng của TP.HCM.",address:"135 Nam Kỳ Khởi Nghĩa, Quận 1",map:"",qr:"images/DINH%20%C4%90O%CC%A3%CC%82C%20LA%CC%A3%CC%82P.png"},{name:"Bảo tàng Chứng tích Chiến tranh",time:"07:45 – 09:45 · Ngày 2",img:"images/2.jpg",desc:"Tham quan Bảo tàng Chứng tích Chiến tranh, tìm hiểu lịch sử.",address:"28 Võ Văn Tần, Quận 3",map:"",qr:"images/qrcode_425216223_ddde7fc17d5eb991e07acc672db05d63.png"},{name:"Nghĩa trang Liệt sĩ Nhà Bè",time:"12:30 – 13:15 · Ngày 2",img:"images/1.jpg",desc:"Viếng nghĩa trang, dâng hương và tưởng niệm các anh hùng liệt sĩ.",address:"Nghĩa trang Liệt sĩ Nhà Bè",map:"",qr:"images/qrcode_425216124_1efe0b433ab29ac36732e9948b27339a.png"}];
+const route=document.getElementById('route');
+places.forEach((p,i)=>{const card=document.createElement('article');card.className='stop';card.innerHTML=`<div class="stop-img" style="background-image:url('${p.img}')"><span class="stop-no">STOP 0${i+1}</span></div><div class="stop-body"><div class="time">◷ ${p.time}</div><h3>${p.name}</h3><p>${p.desc}</p><p style="margin-top:10px">📍 ${p.address}</p><div class="stop-foot"><button type="button" class="qr-btn" data-index="${i}">▦ Thông tin QR</button>${p.map?`<a class="map-btn" href="${p.map}" target="_blank" rel="noopener">Xem bản đồ ↗</a>`:''}</div><div class="qr-area" id="qr${i}">${p.qr?`<img src="${p.qr}" width="120" alt="Mã QR" style="border-radius:8px">`:`<div class="qr-placeholder">QR SẼ ĐƯỢC<br>THÊM SAU</div>`}<p>Quét mã QR để xem thông tin địa điểm.</p></div></div>`;route.appendChild(card);observer.observe(card)});
+document.getElementById('route').addEventListener('click',function(e){const btn=e.target.closest('.qr-btn');if(!btn)return;const idx=btn.getAttribute('data-index');const box=document.getElementById('qr'+idx);if(box)box.classList.toggle('show')});
+document.getElementById('registrationForm').addEventListener('submit',async function(event){event.preventDefault();const form=this,button=form.querySelector('.register-submit'),status=document.getElementById('registerStatus'),originalText=button.textContent;button.disabled=true;button.textContent='Đang gửi...';status.textContent='Đang gửi thông tin đăng ký, vui lòng chờ...';status.style.color='var(--muted)';try{const response=await fetch(form.action,{method:'POST',body:new FormData(form),headers:{'Accept':'application/json'}});let result;try{result=await response.json()}catch{throw new Error('Phản hồi không hợp lệ.')}const success=result&&(result.success===true||result.success==='true');if(!response.ok||!success)throw new Error((result&&(result.message||result.error))||('Lỗi '+response.status));status.textContent='🎉 Đã gửi đăng ký thành công! Ban tổ chức sẽ liên hệ bạn sớm.';status.style.color='#174b38';form.reset()}catch(error){console.error(error);status.textContent='⚠️ Chưa gửi được: '+(error.message||'Lỗi kết nối')+'. Vui lòng thử lại.';status.style.color='#c0392b'}finally{button.disabled=false;button.textContent=originalText}});
+</script>
+</body>
+</html>
